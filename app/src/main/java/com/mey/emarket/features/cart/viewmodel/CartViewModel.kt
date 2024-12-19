@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mey.emarket.core.utils.toDoubleOrZero
 import com.mey.emarket.features.cart.data.CartEntity
 import com.mey.emarket.features.cart.data.CartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,10 +18,14 @@ class CartViewModel
     application: Application,
     private val repository: CartRepository,
 ) : AndroidViewModel(application) {
+
+
     private val _cartItems = MutableLiveData<List<CartEntity>?>()
     val cartItems: LiveData<List<CartEntity>?> get() = _cartItems
 
-    // Sepete ürün ekleme veya artırma
+    private val _totalPrice = MutableLiveData<Double>()
+    val totalPrice : LiveData<Double>get() = _totalPrice
+
     fun addOrIncrementProduct(product: CartEntity) {
         viewModelScope.launch {
             repository.addOrIncrementProduct(product)
@@ -28,7 +33,6 @@ class CartViewModel
         }
     }
 
-    // Sepetteki ürün miktarını azaltma
     fun decrementProduct(productId: String) {
         viewModelScope.launch {
             repository.decrementProduct(productId)
@@ -36,11 +40,21 @@ class CartViewModel
         }
     }
 
-    // Sepetteki ürünleri güncelleme
     fun refreshCartItems() {
         viewModelScope.launch {
-            _cartItems.postValue(repository.getAllCartItems())
+            val response = repository.getAllCartItems()
+            _cartItems.postValue(response)
+            processPrice(response)
         }
+    }
+
+    private fun processPrice(response: List<CartEntity>) {
+        var totalPrice : Double = 0.0
+        response.forEach {
+            val priceForProduct = it.price.toDoubleOrZero() * it.quantity
+            totalPrice += priceForProduct
+        }
+        _totalPrice.postValue(totalPrice)
     }
 
 

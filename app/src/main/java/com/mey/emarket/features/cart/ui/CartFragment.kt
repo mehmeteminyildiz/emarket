@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mey.emarket.core.utils.gone
+import com.mey.emarket.core.utils.visible
 import com.mey.emarket.databinding.FragmentCartBinding
 import com.mey.emarket.features.cart.ui.adapter.ItemCartAdapter
 import com.mey.emarket.features.cart.viewmodel.CartViewModel
@@ -73,6 +75,17 @@ class CartFragment : Fragment() {
                     binding.rvCart.layoutManager?.onRestoreInstanceState(recyclerViewState) // Kaydırma durumunu geri yükle
                 }
             }
+        }
+
+        viewModel.totalPrice.observe(viewLifecycleOwner){
+            if (it > 0){
+                binding.llPriceArea.visible()
+                binding.tvEmpty.gone()
+            }else{
+                binding.llPriceArea.gone()
+                binding.tvEmpty.visible()
+            }
+            binding.tvPrice.text = "$it ₺"
         }
     }
 
