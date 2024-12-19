@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Price:"
+                android:text="@string/price"
                 android:textColor="@color/blue"
                 android:textSize="18sp" />
 
@@ -119,29 +119,23 @@
 
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddToCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="14dp"
             android:layout_marginBottom="10dp"
-            app:cardBackgroundColor="@color/blue"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="0dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center"
-                android:paddingHorizontal="36dp"
-                android:paddingVertical="8dp"
-                android:text="Add to Cart"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:paddingHorizontal="36dp"
+            android:paddingVertical="8dp"
+            android:text="@string/add_to_cart"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="4dp" />
 
 
     </LinearLayout>

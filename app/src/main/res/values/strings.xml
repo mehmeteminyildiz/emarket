@@ -9,4 +9,12 @@
     <string name="new_to_old">New to old</string>
     <string name="price_height_to_low">Price height to low</string>
     <string name="price_low_to_high">Price low to High</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="price">Price:</string>
+    <string name="select_filter">Select Filter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="apply_filters">Apply Filters</string>
+    <string name="item_not_found">Item Not Found</string>
 </resources>

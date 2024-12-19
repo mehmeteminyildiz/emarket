@@ -81,7 +81,7 @@
                 android:fontFamily="@font/montserrat"
                 android:paddingHorizontal="22dp"
                 android:paddingVertical="10dp"
-                android:text="2"
+                tools:text="2"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </androidx.cardview.widget.CardView>

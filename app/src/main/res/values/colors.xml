@@ -11,5 +11,6 @@
     <color name="red">#F90000</color>
     <color name="subtitle_color">#B2333333</color>
     <color name="option_color">#333333</color>
-
+    <color name="shimmer_color">#C2C2C2</color>
+    <color name="shimmer_color2">#B6B6B6</color>
 </resources>

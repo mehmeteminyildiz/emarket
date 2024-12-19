@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mey.emarket.R
 import com.mey.emarket.core.utils.Resource
+import com.mey.emarket.core.utils.gone
+import com.mey.emarket.core.utils.visible
 import com.mey.emarket.databinding.FragmentHomeBinding
 import com.mey.emarket.features.cart.viewmodel.CartViewModel
 import com.mey.emarket.features.favorite.viewmodel.FavoriteViewModel
@@ -56,16 +58,21 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViewModel()
-        observeProducts()
-        if (isPopBackStack) {
-        } else {
-            getProducts()
-        }
+
         setupEditTextDone()
         setupSearchListener()
+        setupRecyclerView()
         observeSearchResults()
         initialize()
         handleClickEvents()
+        observeSearchQuery()
+        setupFavoriteChangeListener()
+    }
+
+    private fun setupFavoriteChangeListener() {
+        parentFragmentManager.setFragmentResultListener("FavoriteChanged", this) { _, _ ->
+            homeViewModel.reloadFilteredProducts()
+        }
     }
 
     private fun setupSearchListener() {
@@ -97,24 +104,25 @@ class HomeFragment : Fragment() {
         cartViewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
     }
 
-    private fun getProducts() {
-        homeViewModel.getProducts()
+    private fun observeSearchQuery() {
+        binding.etSearch.setText(homeViewModel.searchQuery.value)
     }
 
     private fun observeSearchResults() {
         homeViewModel.searchResults.observe(viewLifecycleOwner) { result ->
+            println("observe:: searchResults")
             when (result) {
                 is Resource.Loading -> {
-                    // Loading durumunu göster
+                    startShimmer()
                 }
 
                 is Resource.Success -> {
+                    stopShimmer()
                     val filteredProducts = result.data ?: listOf()
                     processProducts(filteredProducts)
                 }
 
                 is Resource.Error -> {
-                    // Hata durumunu göster
                 }
 
                 else -> {
@@ -124,34 +132,28 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observeProducts() {
-        homeViewModel.productsResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Resource.Loading -> {}
-                is Resource.Error -> {
-                    homeViewModel.clearProductsResponse()
-
-                }
-
-                is Resource.Success -> {
-                    homeViewModel.clearProductsResponse()
-
-                    response.data?.let { data ->
-                        println("response:: $data")
-                        processProducts(data)
-                    }
-                }
-
-                else -> {}
-            }
+    private fun startShimmer() {
+        binding.apply {
+            tvNotFound.gone()
+            rvProducts.gone()
+            shimmer.visible()
+            shimmer.startShimmer()
         }
     }
 
-    private fun processProducts(data: List<Product>) {
+    private fun stopShimmer() {
+        binding.apply {
+            rvProducts.visible()
+            shimmer.gone()
+            shimmer.stopShimmer()
+        }
+    }
+
+
+    private fun setupRecyclerView() {
         binding.apply {
             rvProducts.adapter = adapter
             rvProducts.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-            adapter.setList(data)
             adapter.setOnFavClickListenerCustom { item ->
                 favClicked(item)
             }
@@ -160,6 +162,19 @@ class HomeFragment : Fragment() {
             }
             adapter.setOnCartClickListenerCustom { item ->
                 cartViewModel.addOrIncrementProduct(item.toCartEntity())
+            }
+        }
+    }
+
+    private fun processProducts(data: List<Product>) {
+        binding.apply {
+            if (data.isEmpty()) {
+                tvNotFound.visible()
+                rvProducts.gone()
+            } else {
+                tvNotFound.gone()
+                rvProducts.visible()
+                adapter.setList(data)
             }
         }
     }
@@ -213,6 +228,5 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        homeViewModel.clearProductsResponse()
     }
 }

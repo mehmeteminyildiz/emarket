@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mey.emarket.core.data.repository.RemoteRepository
 import com.mey.emarket.features.favorite.data.FavoritesEntity
 import com.mey.emarket.features.favorite.data.FavoritesRepository
 import com.mey.emarket.features.home.data.model.Product
@@ -17,6 +18,7 @@ class FavoriteViewModel
 @Inject constructor(
     application: Application,
     private val repository: FavoritesRepository,
+    private val remoteRepository: RemoteRepository,
 ) : AndroidViewModel(application) {
 
     private val _favItems = MutableLiveData<List<FavoritesEntity>?>()
@@ -29,6 +31,7 @@ class FavoriteViewModel
     fun addToFavorites(product: Product) = viewModelScope.launch {
         repository.addFavorite(product)
         fetchFavorites()
+
     }
 
     fun removeFromFavorites(product: Product) = viewModelScope.launch {

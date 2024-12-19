@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="Sort By"
+                    android:text="@string/sort_by"
                     android:textColor="@color/subtitle_color"
                     android:textSize="12sp" />
 
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="Brand"
+                    android:text="@string/brand"
                     android:textColor="@color/subtitle_color"
                     android:textSize="12sp" />
 
@@ -166,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="Model"
+                    android:text="@string/model"
                     android:textColor="@color/subtitle_color"
                     android:textSize="12sp" />
 
@@ -205,7 +205,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
             android:paddingVertical="8dp"
-            android:text="Apply Filters"
+            android:text="@string/apply_filters"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </androidx.cardview.widget.CardView>

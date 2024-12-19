@@ -87,7 +87,7 @@ class FilterFragment(
 
     private fun setSelectedSortOption() {
         binding.rgSort.clearCheck()
-        when (homeViewModel.getSelectedSort()) {
+        when (homeViewModel.selectedSortOption.value) {
             SortOption.DATE_ASCENDING -> {
                 binding.rbOldToNew.isChecked = true
             }

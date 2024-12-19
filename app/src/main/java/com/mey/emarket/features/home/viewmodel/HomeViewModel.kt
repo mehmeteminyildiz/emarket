@@ -29,37 +29,27 @@ class HomeViewModel
     private val repository: RemoteRepository,
     private val favRepository: FavoritesRepository,
 ) : AndroidViewModel(application) {
-    private var _productsResponse: MutableLiveData<Resource<List<Product>>?> = MutableLiveData()
+
+    // Tüm ürünleri saklayan LiveData
+    private val _productsResponse = MutableLiveData<Resource<List<Product>>?>()
     val productsResponse: LiveData<Resource<List<Product>>?> get() = _productsResponse
 
-    private val searchQuery = MutableStateFlow<String>("")
-    val searchResults = MutableLiveData<Resource<List<Product>>?>()
+    // Filtreleme sonuçları için LiveData
+    private val _searchResults = MutableLiveData<Resource<List<Product>>?>()
+    val searchResults: LiveData<Resource<List<Product>>?> get() = _searchResults
 
-    private var _allBrands: MutableLiveData<List<FilterModel>> = MutableLiveData()
+    // Markalar ve modeller
+    private val _allBrands = MutableLiveData<List<FilterModel>>()
     val allBrands: LiveData<List<FilterModel>> get() = _allBrands
 
-    private var _allModels: MutableLiveData<List<FilterModel>> = MutableLiveData()
+    private val _allModels = MutableLiveData<List<FilterModel>>()
     val allModels: LiveData<List<FilterModel>> get() = _allModels
 
-    private var _selectedSort: MutableLiveData<SortOption> = MutableLiveData()
-    val selectedSort : LiveData<SortOption> get() = _selectedSort
-
-    fun setAllBrands(brands: List<FilterModel>) = viewModelScope.launch {
-        _allBrands.postValue(brands)
-    }
-
-    fun setAllModels(models: List<FilterModel>) = viewModelScope.launch {
-        _allModels.postValue(models)
-    }
-
-    fun getSelectedSort(): SortOption{
-        return selectedSortOption.value?: SortOption.DATE_ASCENDING
-    }
-
+    // Kullanıcı seçimlerini saklamak için StateFlow
+    val searchQuery = MutableStateFlow("")
     private val selectedBrands = MutableStateFlow<List<String>>(emptyList())
     private val selectedModels = MutableStateFlow<List<String>>(emptyList())
-    private val selectedSortOption = MutableStateFlow<SortOption?>(SortOption.DATE_ASCENDING)
-
+    val selectedSortOption = MutableStateFlow(SortOption.DATE_ASCENDING)
 
     init {
         observeCombinedFilters()
@@ -68,54 +58,71 @@ class HomeViewModel
         }
     }
 
-
-
     private fun observeCombinedFilters() {
         viewModelScope.launch {
             combine(
-                searchQuery.debounce(200),
+                searchQuery.debounce(0),
                 selectedBrands,
                 selectedModels,
                 selectedSortOption
-            ) { query, brands, models,sortOption ->
+            ) { query, brands, models, sortOption ->
                 Triple(query, Pair(brands, models), sortOption)
             }.distinctUntilChanged()
                 .collect { (query, filters, sortOption) ->
                     val (brands, models) = filters
-                    filterProducts(query, brands, models)
+                    filterProducts(query, brands, models, sortOption)
                 }
         }
     }
-
-    private suspend fun filterProducts(query: String, brands: List<String>, models: List<String>) {
-        searchResults.postValue(Resource.Loading())
+    // Ürünleri filtreleme ve sıralama işlemi
+    private suspend fun filterProducts(
+        query: String,
+        brands: List<String>,
+        models: List<String>,
+        sortOption: SortOption
+    ) {
+        _searchResults.postValue(Resource.Loading())
         val allProducts = repository.getProducts().body() ?: listOf()
         val favoriteIds = favRepository.getAllFavorites().map { it.id }
 
+        // Filtreleme işlemi
         var filteredProducts = allProducts.filter { product ->
             (brands.isEmpty() || product.brand in brands) &&
                     (models.isEmpty() || product.model in models) &&
                     (query.isBlank() || product.name!!.contains(query, ignoreCase = true))
         }
 
-        selectedSortOption.value?.let { sortOption ->
-            filteredProducts = when (sortOption) {
-                SortOption.DATE_DESCENDING -> filteredProducts.sortedByDescending { it.createdAt?.toDate() }
-                SortOption.DATE_ASCENDING -> filteredProducts.sortedBy { it.createdAt?.toDate() }
-                SortOption.PRICE_DESCENDING -> filteredProducts.sortedByDescending { it.price?.toDoubleOrZero() }
-                SortOption.PRICE_ASCENDING -> filteredProducts.sortedBy { it.price?.toDoubleOrZero() }
-            }
+        // Sıralama işlemi
+        filteredProducts = when (sortOption) {
+            SortOption.DATE_DESCENDING -> filteredProducts.sortedByDescending { it.createdAt?.toDate() }
+            SortOption.DATE_ASCENDING -> filteredProducts.sortedBy { it.createdAt?.toDate() }
+            SortOption.PRICE_DESCENDING -> filteredProducts.sortedByDescending { it.price?.toDoubleOrZero() }
+            SortOption.PRICE_ASCENDING -> filteredProducts.sortedBy { it.price?.toDoubleOrZero() }
         }
 
-        // Favori ürünleri işaretle
-        filteredProducts.forEach {
-            if (it.id in favoriteIds) it.isFavorite = true
+        // Favori ürünleri işaretleme
+        filteredProducts.forEach { product ->
+            product.isFavorite = product.id in favoriteIds
         }
 
-        searchResults.postValue(Resource.Success(filteredProducts))
+        _searchResults.postValue(Resource.Success(filteredProducts))
+    }
+    // Kullanıcı seçimi güncellemeleri
+    fun updateSearchQuery(query: String) {
+        searchQuery.value = query
     }
 
-    // Seçili markaları güncelle
+    fun reloadFilteredProducts() {
+        viewModelScope.launch {
+            val currentQuery = searchQuery.value
+            val currentBrands = selectedBrands.value
+            val currentModels = selectedModels.value
+            val currentSort = selectedSortOption.value
+
+            filterProducts(currentQuery, currentBrands, currentModels, currentSort)
+        }
+    }
+
     fun updateSelectedBrands(brands: List<String>) {
         selectedBrands.value = brands
     }
@@ -124,56 +131,31 @@ class HomeViewModel
         selectedModels.value = models
     }
 
-    // Arama sorgusunu güncelle
-    fun updateSearchQuery(query: String) {
-        searchQuery.value = query
-    }
-
     fun updateSortOption(option: SortOption) {
         selectedSortOption.value = option
     }
 
-    fun getProducts() = viewModelScope.launch {
+    // Tüm ürünleri yükleme ve markaları/modelleri belirleme
+     fun fetchAllProducts() = viewModelScope.launch {
         _productsResponse.postValue(Resource.Loading())
         val response = repository.getProducts()
         val productList = response.body() ?: listOf()
         val favoriteIds = favRepository.getAllFavorites().map { it.id }
 
-
-
         productList.forEach {
-            if (it.id in favoriteIds)
-                it.isFavorite = true
+            it.isFavorite = it.id in favoriteIds
         }
 
-        setAllBrands(
-            productList
-                .map { FilterModel(name = it.brand ?: "", isSelected = false) }
+        _allBrands.postValue(
+            productList.mapNotNull { it.brand?.let { brand -> FilterModel(brand, false) } }
                 .distinctBy { it.name }
         )
-        setAllModels(
-            productList
-                .map { FilterModel(name = it.model ?: "", isSelected = false) }
+
+        _allModels.postValue(
+            productList.mapNotNull { it.model?.let { model -> FilterModel(model, false) } }
                 .distinctBy { it.name }
         )
 
         _productsResponse.postValue(Resource.Success(productList))
-    }
-
-    fun clearProductsResponse() {
-        _productsResponse.postValue(null)
-    }
-
-
-    private suspend fun fetchAllProducts() {
-        searchResults.postValue(Resource.Loading())
-        val allProducts = repository.getProducts().body() ?: listOf()
-        val favoriteIds = favRepository.getAllFavorites().map { it.id }
-
-        allProducts.forEach {
-            if (it.id in favoriteIds) it.isFavorite = true
-        }
-
-        searchResults.postValue(Resource.Success(allProducts))
     }
 }
