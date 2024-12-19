@@ -18,7 +18,6 @@ class FavoriteViewModel
 @Inject constructor(
     application: Application,
     private val repository: FavoritesRepository,
-    private val remoteRepository: RemoteRepository,
 ) : AndroidViewModel(application) {
 
     private val _favItems = MutableLiveData<List<FavoritesEntity>?>()

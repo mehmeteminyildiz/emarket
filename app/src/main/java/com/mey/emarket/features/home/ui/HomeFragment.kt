@@ -64,7 +64,6 @@ class HomeFragment : Fragment() {
         setupSearchListener()
         setupRecyclerView()
         observeSearchResults()
-        initialize()
         handleClickEvents()
         observeSearchQuery()
         setupFavoriteChangeListener()
@@ -194,10 +193,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initialize() {
-
-    }
-
     private fun handleClickEvents() {
         binding.apply {
             cvFilter.setOnClickListener {
@@ -217,17 +212,5 @@ class HomeFragment : Fragment() {
             }
 
         }
-    }
-
-    private fun getBrandList(): List<FilterModel> {
-        val brandList = ArrayList<FilterModel>()
-        for (i in 0..10) {
-            brandList.add(FilterModel("brand-$i", isSelected = false))
-        }
-        return brandList
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 }

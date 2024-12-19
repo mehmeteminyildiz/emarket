@@ -52,7 +52,6 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
 
-        initialize()
         handleClickEvents()
         setupRecyclerView()
         handleObserve()
@@ -106,13 +105,9 @@ class FavoriteFragment : Fragment() {
         cartViewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
     }
 
-    private fun initialize() {
-    }
-
     private fun handleClickEvents() {
         binding.apply {
             imgBack.setOnClickListener { findNavController().popBackStack() }
-
         }
     }
 

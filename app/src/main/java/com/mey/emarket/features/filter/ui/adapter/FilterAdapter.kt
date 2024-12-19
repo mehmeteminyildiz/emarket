@@ -53,10 +53,4 @@ class FilterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun getSelectedItems(): List<String> {
         return list.filter { it.isSelected }.map { it.name }
     }
-
-    fun getSelectedModels(): List<String>{
-        return list.filter { it.isSelected }.map { it.name}
-    }
-
-
 }

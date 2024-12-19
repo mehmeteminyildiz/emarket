@@ -29,13 +29,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         cartViewModel = ViewModelProvider(this)[CartViewModel::class.java]
+        initNavigation()
+        observeCartItemCount()
+    }
 
+    private fun initNavigation() {
         val navGraph =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navGraph.navController
         binding.bottomNavigationView.setupWithNavController(navController)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
 
@@ -46,8 +48,6 @@ class MainActivity : AppCompatActivity() {
             }
             NavigationUI.onNavDestinationSelected(item, navController)
         }
-
-        observeCartItemCount()
     }
 
     private fun observeCartItemCount() {

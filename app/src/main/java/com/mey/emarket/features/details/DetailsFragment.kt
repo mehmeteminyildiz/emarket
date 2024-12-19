@@ -44,7 +44,6 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModels()
-        initialize()
         handleClickEvents()
         handleArguments()
 
@@ -98,9 +97,6 @@ class DetailsFragment : Fragment() {
         } else {
             binding.imgFav.setColorFilter(favColor)
         }
-    }
-
-    private fun initialize() {
     }
 
     private fun handleClickEvents() {

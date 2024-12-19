@@ -21,11 +21,6 @@ fun View.gone() {
     this.visibility = View.GONE
 }
 
-fun View.invisible() {
-    this.visibility = View.INVISIBLE
-}
-
-
 fun String.toDate(): Date? {
     return try {
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())

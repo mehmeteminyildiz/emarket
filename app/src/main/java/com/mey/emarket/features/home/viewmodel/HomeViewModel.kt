@@ -126,7 +126,7 @@ class HomeViewModel
         selectedSortOption.value = option
     }
 
-     fun fetchAllProducts() = viewModelScope.launch {
+     private fun fetchAllProducts() = viewModelScope.launch {
         _productsResponse.postValue(Resource.Loading())
         val response = repository.getProducts()
         val productList = response.body() ?: listOf()

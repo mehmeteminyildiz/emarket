@@ -39,8 +39,6 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModels()
-        initialize()
-        handleClickEvents()
         setupRecyclerView()
         handleObserve()
         viewModel.refreshCartItems()
@@ -86,14 +84,5 @@ class CartFragment : Fragment() {
 
     private fun initViewModels() {
         viewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
-    }
-
-    private fun initialize() {
-    }
-
-    private fun handleClickEvents() {
-        binding.apply {
-
-        }
     }
 }
