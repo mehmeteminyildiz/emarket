@@ -9,9 +9,9 @@ import com.mey.emarket.features.favorite.data.FavoritesEntity
 
 
 @Database(
-    entities = [FavoritesEntity::class, CartEntity::class], // Kullanılacak Entity'ler
-    version = 1, // Veritabanı versiyonu
-    exportSchema = false // Şema dosyasını export etmek istemiyorsanız false
+    entities = [FavoritesEntity::class, CartEntity::class],
+    version = 1,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 

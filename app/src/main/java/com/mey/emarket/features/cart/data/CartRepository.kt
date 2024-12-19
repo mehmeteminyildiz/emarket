@@ -6,7 +6,6 @@ import javax.inject.Inject
 class CartRepository @Inject constructor(
     private val cartDao: CartDao
 ) {
-    // Sepete ürün ekleme veya miktar artırma
     suspend fun addOrIncrementProduct(product: CartEntity) {
         val existingItem = cartDao.getCartItemById(product.id)
         if (existingItem != null) {
@@ -16,13 +15,11 @@ class CartRepository @Inject constructor(
         }
     }
 
-    // Sepetteki ürün miktarını azaltma
     suspend fun decrementProduct(productId: String) {
         cartDao.decrementQuantity(productId, 1)
         cartDao.removeZeroQuantityItems()
     }
 
-    // Tüm cart öğelerini alma
     suspend fun getAllCartItems(): List<CartEntity> {
         return cartDao.getAllCartItems()
     }

@@ -18,8 +18,8 @@ import com.mey.emarket.features.cart.viewmodel.CartViewModel
 import com.mey.emarket.features.favorite.ui.adapter.FavoriteAdapter
 import com.mey.emarket.features.favorite.viewmodel.FavoriteViewModel
 import com.mey.emarket.features.home.viewmodel.HomeViewModel
-import com.mey.emarket.shared.data.mapper.toCartEntity
-import com.mey.emarket.shared.data.mapper.toProduct
+import com.mey.emarket.core.utils.toCartEntity
+import com.mey.emarket.core.utils.toProduct
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -51,12 +51,6 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-
-        if (isPopBackStack) {
-            // geri gelinmiş
-        } else {
-            // ilk açılış
-        }
 
         initialize()
         handleClickEvents()

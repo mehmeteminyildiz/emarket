@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mey.emarket.databinding.ItemSelectionBinding
-import com.mey.emarket.features.filter.data.model.FilterModel
+import com.mey.emarket.features.filter.data.FilterModel
 
 class FilterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var _list = ArrayList<FilterModel>()

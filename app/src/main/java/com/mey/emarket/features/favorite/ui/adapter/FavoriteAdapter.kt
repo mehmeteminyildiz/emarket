@@ -28,7 +28,7 @@ class FavoriteAdapter : ListAdapter<FavoritesEntity, FavoriteAdapter.ItemProduct
     }
 
     override fun onBindViewHolder(holder: ItemProductViewHolder, position: Int) {
-        val item = getItem(position) // `ListAdapter`'in getItem() fonksiyonu kullanılır
+        val item = getItem(position)
         bindItemProductViewHolder(holder, item)
     }
 
@@ -70,10 +70,10 @@ class FavoriteAdapter : ListAdapter<FavoritesEntity, FavoriteAdapter.ItemProduct
 
 class FavoritesDiffCallback : DiffUtil.ItemCallback<FavoritesEntity>() {
     override fun areItemsTheSame(oldItem: FavoritesEntity, newItem: FavoritesEntity): Boolean {
-        return oldItem.id == newItem.id // Her öğenin benzersiz bir ID'si olmalı
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: FavoritesEntity, newItem: FavoritesEntity): Boolean {
-        return oldItem == newItem // İçerik aynıysa hiçbir değişiklik yapma
+        return oldItem == newItem
     }
 }

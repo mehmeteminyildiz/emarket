@@ -20,11 +20,19 @@ class CartViewModel
 ) : AndroidViewModel(application) {
 
 
+    private val _cartItemCount = MutableLiveData<Int>()
+    val cartItemCount: LiveData<Int> get() = _cartItemCount
+
+    init {
+        refreshCartItems()
+    }
+
+
     private val _cartItems = MutableLiveData<List<CartEntity>?>()
     val cartItems: LiveData<List<CartEntity>?> get() = _cartItems
 
     private val _totalPrice = MutableLiveData<Double>()
-    val totalPrice : LiveData<Double>get() = _totalPrice
+    val totalPrice: LiveData<Double> get() = _totalPrice
 
     fun addOrIncrementProduct(product: CartEntity) {
         viewModelScope.launch {
@@ -45,11 +53,20 @@ class CartViewModel
             val response = repository.getAllCartItems()
             _cartItems.postValue(response)
             processPrice(response)
+            processCartItemCount(response)
         }
     }
 
+    private fun processCartItemCount(response: List<CartEntity>) {
+        var totalCount = 0
+        response.forEach {
+            totalCount += it.quantity
+        }
+        _cartItemCount.postValue(totalCount)
+    }
+
     private fun processPrice(response: List<CartEntity>) {
-        var totalPrice : Double = 0.0
+        var totalPrice: Double = 0.0
         response.forEach {
             val priceForProduct = it.price.toDoubleOrZero() * it.quantity
             totalPrice += priceForProduct

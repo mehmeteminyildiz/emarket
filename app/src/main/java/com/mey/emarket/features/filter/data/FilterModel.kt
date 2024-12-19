@@ -1,4 +1,4 @@
-package com.mey.emarket.features.filter.data.model
+package com.mey.emarket.features.filter.data
 
 data class FilterModel(
     val name: String,

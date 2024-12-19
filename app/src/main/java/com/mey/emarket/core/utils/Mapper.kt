@@ -1,8 +1,8 @@
-package com.mey.emarket.shared.data.mapper
+package com.mey.emarket.core.utils
 
 import com.mey.emarket.features.cart.data.CartEntity
 import com.mey.emarket.features.favorite.data.FavoritesEntity
-import com.mey.emarket.features.home.data.model.Product
+import com.mey.emarket.features.home.data.Product
 
 // Product -> FavoritesEntity
 fun Product.toFavoriteEntity(): FavoritesEntity {

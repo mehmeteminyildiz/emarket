@@ -39,12 +39,6 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModels()
-        if (isPopBackStack) {
-            // geri gelinmiş
-        } else {
-            // ilk açılış
-        }
-
         initialize()
         handleClickEvents()
         setupRecyclerView()
@@ -70,9 +64,9 @@ class CartFragment : Fragment() {
     private fun handleObserve() {
         viewModel.cartItems.observe(viewLifecycleOwner) {
             it?.let { data ->
-                val recyclerViewState = binding.rvCart.layoutManager?.onSaveInstanceState() // Kaydırma durumunu kaydet
+                val recyclerViewState = binding.rvCart.layoutManager?.onSaveInstanceState()
                 adapter.submitList(data) {
-                    binding.rvCart.layoutManager?.onRestoreInstanceState(recyclerViewState) // Kaydırma durumunu geri yükle
+                    binding.rvCart.layoutManager?.onRestoreInstanceState(recyclerViewState)
                 }
             }
         }

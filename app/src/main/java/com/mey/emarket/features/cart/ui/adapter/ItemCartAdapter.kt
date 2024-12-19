@@ -23,7 +23,7 @@ class ItemCartAdapter : ListAdapter<CartEntity, ItemCartAdapter.ItemCartViewHold
     }
 
     override fun onBindViewHolder(holder: ItemCartViewHolder, position: Int) {
-        val item = getItem(position) // `ListAdapter`'in getItem() fonksiyonu kullanılır
+        val item = getItem(position)
         bindItemProductViewHolder(holder, item)
     }
 
@@ -55,10 +55,10 @@ class ItemCartAdapter : ListAdapter<CartEntity, ItemCartAdapter.ItemCartViewHold
 
 class CartDiffCallback : DiffUtil.ItemCallback<CartEntity>() {
     override fun areItemsTheSame(oldItem: CartEntity, newItem: CartEntity): Boolean {
-        return oldItem.id == newItem.id // Her öğenin benzersiz bir ID'si olmalı
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: CartEntity, newItem: CartEntity): Boolean {
-        return oldItem == newItem // İçerik aynıysa hiçbir değişiklik yapma
+        return oldItem == newItem
     }
 }

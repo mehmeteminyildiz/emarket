@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mey.emarket.R
 import com.mey.emarket.databinding.ItemProductBinding
-import com.mey.emarket.features.home.data.model.Product
+import com.mey.emarket.features.home.data.Product
 
 class ItemProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var _list = ArrayList<Product>()

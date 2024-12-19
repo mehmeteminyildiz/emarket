@@ -11,8 +11,8 @@ import com.mey.emarket.core.utils.toDate
 import com.mey.emarket.core.utils.toDoubleOrZero
 import com.mey.emarket.features.favorite.data.FavoritesRepository
 import com.mey.emarket.features.favorite.data.SortOption
-import com.mey.emarket.features.filter.data.model.FilterModel
-import com.mey.emarket.features.home.data.model.Product
+import com.mey.emarket.features.filter.data.FilterModel
+import com.mey.emarket.features.home.data.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -30,22 +30,18 @@ class HomeViewModel
     private val favRepository: FavoritesRepository,
 ) : AndroidViewModel(application) {
 
-    // Tüm ürünleri saklayan LiveData
     private val _productsResponse = MutableLiveData<Resource<List<Product>>?>()
     val productsResponse: LiveData<Resource<List<Product>>?> get() = _productsResponse
 
-    // Filtreleme sonuçları için LiveData
     private val _searchResults = MutableLiveData<Resource<List<Product>>?>()
     val searchResults: LiveData<Resource<List<Product>>?> get() = _searchResults
 
-    // Markalar ve modeller
     private val _allBrands = MutableLiveData<List<FilterModel>>()
     val allBrands: LiveData<List<FilterModel>> get() = _allBrands
 
     private val _allModels = MutableLiveData<List<FilterModel>>()
     val allModels: LiveData<List<FilterModel>> get() = _allModels
 
-    // Kullanıcı seçimlerini saklamak için StateFlow
     val searchQuery = MutableStateFlow("")
     private val selectedBrands = MutableStateFlow<List<String>>(emptyList())
     private val selectedModels = MutableStateFlow<List<String>>(emptyList())
@@ -54,7 +50,7 @@ class HomeViewModel
     init {
         observeCombinedFilters()
         viewModelScope.launch {
-            fetchAllProducts() // İlk açılışta tüm ürünleri yükle
+            fetchAllProducts()
         }
     }
 
@@ -74,7 +70,6 @@ class HomeViewModel
                 }
         }
     }
-    // Ürünleri filtreleme ve sıralama işlemi
     private suspend fun filterProducts(
         query: String,
         brands: List<String>,
@@ -85,14 +80,12 @@ class HomeViewModel
         val allProducts = repository.getProducts().body() ?: listOf()
         val favoriteIds = favRepository.getAllFavorites().map { it.id }
 
-        // Filtreleme işlemi
         var filteredProducts = allProducts.filter { product ->
             (brands.isEmpty() || product.brand in brands) &&
                     (models.isEmpty() || product.model in models) &&
                     (query.isBlank() || product.name!!.contains(query, ignoreCase = true))
         }
 
-        // Sıralama işlemi
         filteredProducts = when (sortOption) {
             SortOption.DATE_DESCENDING -> filteredProducts.sortedByDescending { it.createdAt?.toDate() }
             SortOption.DATE_ASCENDING -> filteredProducts.sortedBy { it.createdAt?.toDate() }
@@ -100,14 +93,12 @@ class HomeViewModel
             SortOption.PRICE_ASCENDING -> filteredProducts.sortedBy { it.price?.toDoubleOrZero() }
         }
 
-        // Favori ürünleri işaretleme
         filteredProducts.forEach { product ->
             product.isFavorite = product.id in favoriteIds
         }
 
         _searchResults.postValue(Resource.Success(filteredProducts))
     }
-    // Kullanıcı seçimi güncellemeleri
     fun updateSearchQuery(query: String) {
         searchQuery.value = query
     }
@@ -135,7 +126,6 @@ class HomeViewModel
         selectedSortOption.value = option
     }
 
-    // Tüm ürünleri yükleme ve markaları/modelleri belirleme
      fun fetchAllProducts() = viewModelScope.launch {
         _productsResponse.postValue(Resource.Loading())
         val response = repository.getProducts()

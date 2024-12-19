@@ -14,8 +14,8 @@ import com.mey.emarket.R
 import com.mey.emarket.databinding.FragmentDetailsBinding
 import com.mey.emarket.features.cart.viewmodel.CartViewModel
 import com.mey.emarket.features.favorite.viewmodel.FavoriteViewModel
-import com.mey.emarket.features.home.data.model.Product
-import com.mey.emarket.shared.data.mapper.toCartEntity
+import com.mey.emarket.features.home.data.Product
+import com.mey.emarket.core.utils.toCartEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,15 +43,7 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (isPopBackStack) {
-            // geri gelinmiş
-        } else {
-            // ilk açılış
-        }
-
         initViewModels()
-
         initialize()
         handleClickEvents()
         handleArguments()

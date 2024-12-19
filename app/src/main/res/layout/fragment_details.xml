@@ -51,7 +51,7 @@
                 android:layout_height="225dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/ic_launcher_background" />
+                tools:src="@drawable/ic_launcher" />
 
             <ImageView
                 android:id="@+id/imgFav"

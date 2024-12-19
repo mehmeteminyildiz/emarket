@@ -22,9 +22,9 @@
             <ImageView
                 android:id="@+id/imgClose"
                 android:layout_width="wrap_content"
-                android:padding="16dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:padding="16dp"
                 android:src="@drawable/ic_close" />
 
             <TextView
@@ -41,152 +41,148 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.core.widget.NestedScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:fillViewport="true"
-        android:overScrollMode="never">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_16">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_16">
+                android:fontFamily="@font/montserrat"
+                android:text="@string/sort_by"
+                android:textColor="@color/subtitle_color"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/sort_by"
-                    android:textColor="@color/subtitle_color"
-                    android:textSize="12sp" />
+            <RadioGroup
+                android:id="@+id/rgSort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <RadioGroup
-                    android:id="@+id/rgSort"
+                <RadioButton
+                    android:id="@+id/rbOldToNew"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RadioButton
-                        android:id="@+id/rbOldToNew"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/blue"
-                        android:checked="true"
-                        android:fontFamily="@font/montserrat"
-                        android:text="@string/old_to_new"
-                        android:textColor="@color/option_color"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbNewToOld"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/blue"
-                        android:fontFamily="@font/montserrat"
-                        android:text="@string/new_to_old"
-                        android:textColor="@color/option_color"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbHeightToLow"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/blue"
-                        android:fontFamily="@font/montserrat"
-                        android:text="@string/price_height_to_low"
-                        android:textColor="@color/option_color"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbLowToHigh"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/blue"
-                        android:fontFamily="@font/montserrat"
-                        android:text="@string/price_low_to_high"
-                        android:textColor="@color/option_color"
-                        android:textSize="14sp" />
-                </RadioGroup>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="@dimen/margin_16"
-                android:background="@color/black_50" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_16">
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/blue"
+                    android:checked="true"
                     android:fontFamily="@font/montserrat"
-                    android:text="@string/brand"
-                    android:textColor="@color/subtitle_color"
-                    android:textSize="12sp" />
+                    android:text="@string/old_to_new"
+                    android:textColor="@color/option_color"
+                    android:textSize="14sp" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvBrand"
+                <RadioButton
+                    android:id="@+id/rbNewToOld"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="8dp"
-                    android:overScrollMode="never"
-                    android:scrollbars="vertical"
-                    tools:itemCount="10"
-                    tools:listitem="@layout/item_selection" />
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="@dimen/margin_16"
-                android:background="@color/black_50" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_16">
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/blue"
                     android:fontFamily="@font/montserrat"
-                    android:text="@string/model"
-                    android:textColor="@color/subtitle_color"
-                    android:textSize="12sp" />
+                    android:text="@string/new_to_old"
+                    android:textColor="@color/option_color"
+                    android:textSize="14sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvModel"
+                <RadioButton
+                    android:id="@+id/rbHeightToLow"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="8dp"
-                    android:overScrollMode="never"
-                    android:scrollbars="vertical"
-                    tools:itemCount="10"
-                    tools:listitem="@layout/item_selection" />
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/blue"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/price_height_to_low"
+                    android:textColor="@color/option_color"
+                    android:textSize="14sp" />
 
+                <RadioButton
+                    android:id="@+id/rbLowToHigh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/blue"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/price_low_to_high"
+                    android:textColor="@color/option_color"
+                    android:textSize="14sp" />
+            </RadioGroup>
 
-            </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:background="@color/black_50" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/brand"
+                android:textColor="@color/subtitle_color"
+                android:textSize="12sp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBrand"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_selection" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:background="@color/black_50" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/model"
+                android:textColor="@color/subtitle_color"
+                android:textSize="12sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvModel"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_selection" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <com.google.android.material.button.MaterialButton
@@ -196,11 +192,10 @@
         android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginTop="14dp"
         android:layout_marginBottom="10dp"
-        android:paddingVertical="8dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="@string/apply_filters"
-
         android:gravity="center"
+        android:paddingVertical="8dp"
+        android:text="@string/apply_filters"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18sp"

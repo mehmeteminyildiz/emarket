@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "cart")
 data class CartEntity(
-    @PrimaryKey val id: String, // Ürün ID'si benzersiz olacak
+    @PrimaryKey val id: String,
     var createdAt: String,
     var name: String,
     var image: String,

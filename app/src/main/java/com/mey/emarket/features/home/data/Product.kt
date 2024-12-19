@@ -1,4 +1,4 @@
-package com.mey.emarket.features.home.data.model
+package com.mey.emarket.features.home.data
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

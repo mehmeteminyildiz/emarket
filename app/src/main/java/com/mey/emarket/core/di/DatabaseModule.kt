@@ -22,7 +22,7 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "app_database" // Veritabanı adı
+            "app_database"
         ).build()
     }
 

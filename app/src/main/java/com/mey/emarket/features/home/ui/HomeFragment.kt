@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,12 +20,12 @@ import com.mey.emarket.core.utils.visible
 import com.mey.emarket.databinding.FragmentHomeBinding
 import com.mey.emarket.features.cart.viewmodel.CartViewModel
 import com.mey.emarket.features.favorite.viewmodel.FavoriteViewModel
-import com.mey.emarket.features.filter.data.model.FilterModel
+import com.mey.emarket.features.filter.data.FilterModel
 import com.mey.emarket.features.filter.ui.FilterFragment
-import com.mey.emarket.features.home.data.model.Product
+import com.mey.emarket.features.home.data.Product
 import com.mey.emarket.features.home.ui.adapter.ItemProductAdapter
 import com.mey.emarket.features.home.viewmodel.HomeViewModel
-import com.mey.emarket.shared.data.mapper.toCartEntity
+import com.mey.emarket.core.utils.toCartEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -123,10 +124,10 @@ class HomeFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
+                    Toast.makeText(requireContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
                 }
 
                 else -> {
-                    // Boş arama için varsayılan ürünleri göster
                 }
             }
         }

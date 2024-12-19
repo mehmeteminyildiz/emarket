@@ -1,7 +1,7 @@
 package com.mey.emarket.features.favorite.data
 
-import com.mey.emarket.features.home.data.model.Product
-import com.mey.emarket.shared.data.mapper.toFavoriteEntity
+import com.mey.emarket.features.home.data.Product
+import com.mey.emarket.core.utils.toFavoriteEntity
 import javax.inject.Inject
 
 class FavoritesRepository

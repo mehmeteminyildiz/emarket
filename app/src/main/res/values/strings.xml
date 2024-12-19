@@ -20,4 +20,5 @@
     <string name="cart_is_empty">Cart is empty</string>
     <string name="complete">Complete</string>
     <string name="favorites_are_empty">Favorites are empty</string>
+    <string name="something_went_wrong">Something went wrong when products are fetching</string>
 </resources>

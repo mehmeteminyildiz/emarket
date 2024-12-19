@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.mey.emarket.core.data.repository.RemoteRepository
 import com.mey.emarket.features.favorite.data.FavoritesEntity
 import com.mey.emarket.features.favorite.data.FavoritesRepository
-import com.mey.emarket.features.home.data.model.Product
+import com.mey.emarket.features.home.data.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

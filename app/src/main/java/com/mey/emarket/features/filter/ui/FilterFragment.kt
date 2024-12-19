@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mey.emarket.R
 import com.mey.emarket.databinding.FragmentFilterBinding
 import com.mey.emarket.features.favorite.data.SortOption
-import com.mey.emarket.features.filter.data.model.FilterModel
+import com.mey.emarket.features.filter.data.FilterModel
 import com.mey.emarket.features.filter.ui.adapter.FilterAdapter
 import com.mey.emarket.features.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
