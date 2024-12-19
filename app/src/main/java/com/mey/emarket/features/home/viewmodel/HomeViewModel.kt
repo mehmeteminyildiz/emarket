@@ -61,7 +61,7 @@ class HomeViewModel
     private fun observeSearchQuery() {
         viewModelScope.launch {
             searchQuery
-                .debounce(1500) // 1.5 saniye gecikme
+                .debounce(200) // 1.5 saniye gecikme
                 .distinctUntilChanged() // Aynı sorguyu birden fazla kez işleme
                 .collect { query ->
                     if (query.isBlank()) {
