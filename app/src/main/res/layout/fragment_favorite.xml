@@ -26,14 +26,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="@dimen/margin_32"
+            android:ellipsize="end"
             android:fontFamily="@font/montserrat_extrabold"
             android:gravity="center"
             android:maxLines="1"
-            android:ellipsize="end"
             android:textColor="@color/white"
             android:textSize="18sp"
             tools:text="Apple Iphone" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserrat_medium"
+        android:gravity="center"
+        android:text="@string/favorites_are_empty"
+        android:textColor="@color/black_50"
+        android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFavorites"
@@ -41,8 +53,10 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:orientation="vertical"
+        android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/item_product" />
+
 
 </LinearLayout>

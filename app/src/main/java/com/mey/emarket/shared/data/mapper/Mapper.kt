@@ -45,8 +45,8 @@ fun FavoritesEntity.toProduct(): Product {
         description = this.description,
         model = this.model,
         brand = this.brand,
-        id = this.id
-
+        id = this.id,
+        isFavorite = true
     )
 }
 fun CartEntity.toProduct(): Product {
@@ -58,7 +58,8 @@ fun CartEntity.toProduct(): Product {
         description = this.description,
         model = this.model,
         brand = this.brand,
-        id = this.id
+        id = this.id,
+
 
     )
 }

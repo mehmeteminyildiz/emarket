@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.mey.emarket.R
+import com.mey.emarket.core.utils.gone
+import com.mey.emarket.core.utils.visible
 import com.mey.emarket.databinding.FragmentFavoriteBinding
 import com.mey.emarket.features.cart.viewmodel.CartViewModel
 import com.mey.emarket.features.favorite.ui.adapter.FavoriteAdapter
@@ -64,10 +68,18 @@ class FavoriteFragment : Fragment() {
 
     private fun handleObserve() {
         viewModel.favItems.observe(viewLifecycleOwner) { updatedList ->
-            val recyclerViewState = binding.rvFavorites.layoutManager?.onSaveInstanceState() // Kaydırma durumunu kaydet
-            adapter.submitList(updatedList) {
-                binding.rvFavorites.layoutManager?.onRestoreInstanceState(recyclerViewState) // Kaydırma durumunu geri yükle
+            if (updatedList.isNullOrEmpty()) {
+                binding.tvEmpty.visible()
+                binding.rvFavorites.gone()
+            } else {
+                binding.tvEmpty.gone()
+                binding.rvFavorites.visible()
+                val recyclerViewState = binding.rvFavorites.layoutManager?.onSaveInstanceState()
+                adapter.submitList(updatedList) {
+                    binding.rvFavorites.layoutManager?.onRestoreInstanceState(recyclerViewState)
+                }
             }
+
         }
     }
 
@@ -81,6 +93,11 @@ class FavoriteFragment : Fragment() {
             }
             adapter.setOnCartClickListenerCustom { item ->
                 cartViewModel.addOrIncrementProduct(item.toProduct().toCartEntity())
+            }
+            adapter.setOnItemClickListenerCustom { item ->
+                val bundle = Bundle()
+                bundle.putParcelable("product", item.toProduct())
+                findNavController().navigate(R.id.action_favoriteFragment_to_detailsFragment,bundle)
             }
         }
     }
@@ -100,6 +117,7 @@ class FavoriteFragment : Fragment() {
 
     private fun handleClickEvents() {
         binding.apply {
+            imgBack.setOnClickListener { findNavController().popBackStack() }
 
         }
     }

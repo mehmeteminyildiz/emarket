@@ -20,13 +20,13 @@ class FavoriteAdapter : ListAdapter<FavoritesEntity, FavoriteAdapter.ItemProduct
         RecyclerView.ViewHolder(binding.root)
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemProductViewHolder {
         context = parent.context
         return ItemProductViewHolder(
             ItemProductBinding.inflate(LayoutInflater.from(context), parent, false)
         )
     }
+
     override fun onBindViewHolder(holder: ItemProductViewHolder, position: Int) {
         val item = getItem(position) // `ListAdapter`'in getItem() fonksiyonu kullanılır
         bindItemProductViewHolder(holder, item)
@@ -41,14 +41,18 @@ class FavoriteAdapter : ListAdapter<FavoritesEntity, FavoriteAdapter.ItemProduct
             val favColor = ContextCompat.getColor(context, R.color.star_selected)
             imgFav.setColorFilter(favColor)
 
-            imgFav.setOnClickListener {
-                onFavClickListenerCustom?.invoke(item)
-            }
+            imgFav.setOnClickListener { onFavClickListenerCustom?.invoke(item) }
 
-            btnAddToCart.setOnClickListener {
-                onCartClickListenerCustom?.invoke(item)
-            }
+            mcvItem.setOnClickListener { onItemClickListenerCustom?.invoke(item) }
+
+
+            btnAddToCart.setOnClickListener { onCartClickListenerCustom?.invoke(item) }
         }
+    }
+
+    private var onItemClickListenerCustom: ((item: FavoritesEntity) -> Unit)? = null
+    fun setOnItemClickListenerCustom(f: ((item: FavoritesEntity) -> Unit)) {
+        onItemClickListenerCustom = f
     }
 
     private var onCartClickListenerCustom: ((item: FavoritesEntity) -> Unit)? = null

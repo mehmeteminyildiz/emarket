@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
 
     private fun startShimmer() {
         binding.apply {
-            tvNotFound.gone()
+            tvEmpty.gone()
             rvProducts.gone()
             shimmer.visible()
             shimmer.startShimmer()
@@ -169,10 +169,10 @@ class HomeFragment : Fragment() {
     private fun processProducts(data: List<Product>) {
         binding.apply {
             if (data.isEmpty()) {
-                tvNotFound.visible()
+                tvEmpty.visible()
                 rvProducts.gone()
             } else {
-                tvNotFound.gone()
+                tvEmpty.gone()
                 rvProducts.visible()
                 adapter.setList(data)
             }

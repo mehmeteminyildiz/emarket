@@ -19,4 +19,5 @@
     <string name="item_not_found">Item Not Found</string>
     <string name="cart_is_empty">Cart is empty</string>
     <string name="complete">Complete</string>
+    <string name="favorites_are_empty">Favorites are empty</string>
 </resources>
