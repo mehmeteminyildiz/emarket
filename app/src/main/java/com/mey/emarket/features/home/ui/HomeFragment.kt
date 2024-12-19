@@ -17,6 +17,8 @@ import com.mey.emarket.core.utils.Resource
 import com.mey.emarket.databinding.FragmentHomeBinding
 import com.mey.emarket.features.cart.viewmodel.CartViewModel
 import com.mey.emarket.features.favorite.viewmodel.FavoriteViewModel
+import com.mey.emarket.features.filter.data.model.FilterModel
+import com.mey.emarket.features.filter.ui.FilterFragment
 import com.mey.emarket.features.home.data.model.Product
 import com.mey.emarket.features.home.ui.adapter.ItemProductAdapter
 import com.mey.emarket.features.home.viewmodel.HomeViewModel
@@ -99,19 +101,22 @@ class HomeFragment : Fragment() {
         homeViewModel.getProducts()
     }
 
-    private fun observeSearchResults(){
+    private fun observeSearchResults() {
         homeViewModel.searchResults.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     // Loading durumunu göster
                 }
+
                 is Resource.Success -> {
                     val filteredProducts = result.data ?: listOf()
                     processProducts(filteredProducts)
                 }
+
                 is Resource.Error -> {
                     // Hata durumunu göster
                 }
+
                 else -> {
                     // Boş arama için varsayılan ürünleri göster
                 }
@@ -174,12 +179,36 @@ class HomeFragment : Fragment() {
     }
 
     private fun initialize() {
+
     }
 
     private fun handleClickEvents() {
         binding.apply {
+            cvFilter.setOnClickListener {
+                val bottomSheet = FilterFragment(
+                    closeClick = {},
+                    onApply = { brandList, modelList, selection ->
+                        homeViewModel.updateSelectedBrands(brandList)
+                        homeViewModel.updateSelectedModels(modelList)
+                        homeViewModel.updateSortOption(selection)
+                    },
+                    viewLifecycleOwner = viewLifecycleOwner
+                )
+                val existingFragment = childFragmentManager.findFragmentByTag("FilterFragment")
+                if (existingFragment == null) {
+                    bottomSheet.show(childFragmentManager, "FilterFragment")
+                }
+            }
 
         }
+    }
+
+    private fun getBrandList(): List<FilterModel> {
+        val brandList = ArrayList<FilterModel>()
+        for (i in 0..10) {
+            brandList.add(FilterModel("brand-$i", isSelected = false))
+        }
+        return brandList
     }
 
     override fun onDestroyView() {

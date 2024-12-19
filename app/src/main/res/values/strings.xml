@@ -4,4 +4,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
     <string name="filters">Filters:</string>
+    <string name="filter">Filter</string>
+    <string name="old_to_new">Old to new</string>
+    <string name="new_to_old">New to old</string>
+    <string name="price_height_to_low">Price height to low</string>
+    <string name="price_low_to_high">Price low to High</string>
 </resources>

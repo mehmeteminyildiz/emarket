@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_details" />
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.mey.emarket.features.filter.FilterFragment"
+        android:name="com.mey.emarket.features.filter.ui.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" />
     <fragment
